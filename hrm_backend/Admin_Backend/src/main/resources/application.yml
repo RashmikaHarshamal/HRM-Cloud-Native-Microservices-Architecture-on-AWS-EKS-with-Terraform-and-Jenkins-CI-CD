@@ -1,0 +1,80 @@
+# ============================================
+# Admin Service — Application Configuration
+# ============================================
+
+# ── .env file location (spring-dotenv reads this at root level) ──
+env:
+  directory: ../
+
+spring:
+  application:
+    name: admin-service
+
+  # ── PostgreSQL Database ──────────────────
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${ADMIN_DB_NAME:hrm_db_admin}
+    username: ${ADMIN_DB_USERNAME:postgres}
+    password: ${ADMIN_DB_PASSWORD:newpassword123}
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
+      minimum-idle: 3
+      idle-timeout: 300000
+
+  # ── JPA/Hibernate ────────────────────────
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  # ── Mail Configuration ────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+app:
+  frontend:
+    url: ${FRONTEND_URL:http://localhost:5173}
+
+# ── Server ─────────────────────────────────
+server:
+  port: ${ADMIN_SERVICE_PORT:5007}
+
+# ── JWT ────────────────────────────────────
+jwt:
+  secret: ${JWT_SECRET:hrm-dev-secret-key-change-this-in-production-must-be-at-least-256-bits-long-for-hs256}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+# ── CORS ───────────────────────────────────
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174,http://localhost:3000}
+
+# ── Logging ────────────────────────────────
+logging:
+  level:
+    root: INFO
+    com.affin.hrm: ${LOG_LEVEL:INFO}
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# ── Inter-Service URLs ─────────────────────
+service:
+  user-url: ${USER_SERVICE_URL:http://localhost:5004}
+  employee-url: ${EMPLOYEE_SERVICE_URL:http://localhost:5006}
+  hr-url: ${HR_SERVICE_URL:http://localhost:5005}

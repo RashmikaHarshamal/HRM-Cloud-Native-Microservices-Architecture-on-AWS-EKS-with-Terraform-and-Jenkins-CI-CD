@@ -1,0 +1,114 @@
+# ========================================
+# HRM Project — Root .gitignore
+# ========================================
+
+
+# ─── Environment & Secrets ─────────────
+# Real env files hold passwords/secrets — never commit
+.env
+.env.local
+.env.*.local
+.env.staging
+.env.production
+*.env
+
+# Templates with placeholders only — these ARE committed
+!.env.example
+!.env.staging.example
+!*.env.example
+
+
+# ─── Java / Gradle ─────────────────────
+*.class
+*.war
+*.ear
+
+# JAR files are ignored, but Gradle wrapper JAR must stay
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Gradle cache and generated build folders
+.gradle/
+**/.gradle/
+build/
+**/build/
+bin/
+**/bin/
+out/
+**/out/
+
+
+# ─── Logs ──────────────────────────────
+*.log
+hs_err_pid*
+replay_pid*
+
+
+# ─── Node.js / Frontend ────────────────
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.cache/
+**/.cache/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# ─── IDE Files ─────────────────────────
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/
+nbbuild/
+nbdist/
+nb-configuration.xml
+
+
+# ─── OS Files ──────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+
+# ─── Temporary / Backup Files ──────────
+*.bak
+*.tmp
+*.temp
+*.orig
+
+# Terraform downloaded files
+**/.terraform/*
+
+# Terraform state and saved plans
+*.tfstate
+*.tfstate.*
+*.tfplan
+infra/terraform/plan
+
+# Local Terraform inputs
+*.tfvars
+*.tfvars.json
+
+# Terraform crash logs
+crash.log
+crash.*.log

@@ -1,0 +1,34 @@
+-- ====================================================================
+-- ALTERNATIVE: Copy data using pg_dump (if dblink doesn't work)
+-- ====================================================================
+-- 
+-- INSTRUCTIONS:
+-- 1. Open PowerShell and set PostgreSQL bin to PATH:
+--    $env:PATH += ";C:\Program Files\PostgreSQL\16\bin"
+-- 
+-- 2. Run these commands:
+--
+-- Set environment variable for password
+-- $env:PGPASSWORD = "Rush@2001780"
+--
+-- Export data from hrm_db_user
+-- pg_dump -h localhost -U postgres -d hrm_db_user -t company -t department -t employee --data-only > export.sql
+--
+-- Import to hrm_db_employee
+-- psql -h localhost -U postgres -d hrm_db_employee -f export.sql
+--
+-- ====================================================================
+
+-- MANUAL SQL APPROACH (copy one by one):
+-- ====================================================================
+-- 1. First, connect to hrm_db_employee in pgAdmin
+-- 2. Run the SELECT queries below to see what's in hrm_db_user:
+
+-- Check employees in USER database:
+-- SELECT id, email, full_name, password, role FROM hrm_db_user.public.employee LIMIT 5;
+
+-- 3. Then INSERT them into hrm_db_employee using direct copy commands
+-- Example INSERT (adjust column names if needed):
+-- 
+-- INSERT INTO employee (id, employee_id, full_name, email, password, nic, dob, address, phone, gender, company_id, department_id, role, designation, joining_date, termination_date, status, created_at, updated_at)
+-- VALUES (1, 'EMP001', 'Admin User', 'admin@test.com', 'encoded_password', NULL, NULL, NULL, NULL, 'OTHER', 1, 1, 'ADMIN', NULL, CURRENT_DATE, NULL, 'ACTIVE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

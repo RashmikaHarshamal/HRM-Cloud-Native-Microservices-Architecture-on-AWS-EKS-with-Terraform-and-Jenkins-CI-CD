@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/sql/init-dbs.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      retries: 10
+
+  user-service:
+    build: ./hrm_backend/User_Backend
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.staging}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  hr-service:
+    build: ./hrm_backend/HR_Backend
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.staging}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  employee-service:
+    build: ./hrm_backend/Employee_Backend
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.staging}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  admin-service:
+    build: ./hrm_backend/Admin_Backend
+    restart: unless-stopped
+    env_file: ${ENV_FILE:-.env.staging}
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  frontend:
+    build:
+      context: ./hrm_frontend
+      args:
+        VITE_API_BASE_URL: https://${DOMAIN}/hr/api
+        VITE_AUTH_URL: https://${DOMAIN}/user/api
+        VITE_EMPLOYEE_URL: https://${DOMAIN}/employee/api
+        VITE_ADMIN_URL: https://${DOMAIN}/admin/api
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - user-service
+      - hr-service
+      - employee-service
+      - admin-service
+      - frontend
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

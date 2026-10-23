@@ -1,0 +1,8 @@
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+RUN useradd -r -u 1001 spring
+ARG JAR_FILE=build/libs/hrm-1.0.0.jar
+COPY ${JAR_FILE} app.jar
+USER spring
+ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

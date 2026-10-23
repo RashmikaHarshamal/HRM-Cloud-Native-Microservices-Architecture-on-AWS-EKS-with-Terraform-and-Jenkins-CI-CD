@@ -1,0 +1,22 @@
+{$DOMAIN} {
+      encode gzip
+
+      @internal path_regexp ^/[^/]+/api/(internal|sync)(/|$)
+      respond @internal 403
+
+      handle_path /user/* {
+              reverse_proxy user-service:5004
+      }
+      handle_path /hr/* {
+              reverse_proxy hr-service:5005
+      }
+      handle_path /employee/* {
+              reverse_proxy employee-service:5006
+      }
+      handle_path /admin/* {
+              reverse_proxy admin-service:5007
+      }
+      handle {
+              reverse_proxy frontend:80
+      }
+}
