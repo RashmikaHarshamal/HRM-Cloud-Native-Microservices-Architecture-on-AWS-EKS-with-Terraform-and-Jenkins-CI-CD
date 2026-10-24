@@ -476,6 +476,7 @@ git commit -m "Add EKS manifests, deploy script and Jenkins pipeline"
 git push
 ```
 
+
 ### H2. Create the IAM role for Jenkins (AWS Console)
 
 **Why:** gives the Jenkins machine permission to push images to ECR and to find the EKS cluster.
