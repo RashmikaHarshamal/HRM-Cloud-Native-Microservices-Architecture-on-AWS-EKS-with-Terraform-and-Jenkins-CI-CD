@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket       = "hrm-terraform-state-734329327187-ap-southeast-1"
+    bucket       = "hrm-terraform-state-895207965225-ap-southeast-1"
     key          = "prod/terraform.tfstate"
     region       = "ap-southeast-1"
     encrypt      = true

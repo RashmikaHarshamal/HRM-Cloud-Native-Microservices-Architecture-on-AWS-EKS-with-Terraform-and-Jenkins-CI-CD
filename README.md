@@ -1,5 +1,6 @@
-<<<<<<< HEAD
 # HRM — Human Resource Management System
+
+**HRM Cloud-Native Microservices Architecture on AWS (EKS) with Terraform and Jenkins CI/CD**
 
 A microservices-based HRM application built with **Spring Boot 3.4** (Java 17) and **React 19** (Vite).
 
@@ -176,7 +177,3 @@ See [docs/API.md](docs/API.md) for the complete API reference.
 ## License
 
 Proprietary — Affin HRM
-=======
-# HRM-Cloud-Native-Microservices-Architecture-on-AWS-EKS-with-Terraform-and-Jenkins-CI-CD
-HRM Cloud-Native Microservices Architecture on AWS (EKS) with Terraform and Jenkins CI/CD
->>>>>>> 774b32655a84705cc1201669673d131700167226
