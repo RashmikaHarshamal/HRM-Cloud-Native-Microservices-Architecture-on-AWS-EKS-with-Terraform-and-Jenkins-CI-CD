@@ -1,0 +1,30 @@
+# Applied once by hand (see docs/DEPLOY_EKS_FAST.md, Step 4).
+# __RDS_HOST__ = terraform output -raw rds_endpoint (hostname only, no :5432)
+# __APP_URL__  = http://<frontend LoadBalancer hostname> (use http://localhost until you know it)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hrm-config
+  namespace: hrm
+data:
+  SERVER_PORT: "8080"
+  DB_HOST: "__RDS_HOST__"
+  DB_PORT: "5432"
+  USER_DB_NAME: "hrm_db_user"
+  HR_DB_NAME: "hrm_db_hr"
+  EMPLOYEE_DB_NAME: "hrm_db_employee"
+  ADMIN_DB_NAME: "hrm_db_admin"
+  USER_DB_USERNAME: "hrm_user_svc"
+  HR_DB_USERNAME: "hrm_hr_svc"
+  EMPLOYEE_DB_USERNAME: "hrm_employee_svc"
+  ADMIN_DB_USERNAME: "hrm_admin_svc"
+  USER_SERVICE_URL: "http://user-service:8080"
+  HR_SERVICE_URL: "http://hr-service:8080"
+  EMPLOYEE_SERVICE_URL: "http://employee-service:8080"
+  ADMIN_SERVICE_URL: "http://admin-service:8080"
+  CORS_ALLOWED_ORIGINS: "__APP_URL__"
+  FRONTEND_URL: "__APP_URL__"
+  JWT_EXPIRATION: "86400000"
+  LOG_LEVEL: "INFO"
+  MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health"

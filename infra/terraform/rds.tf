@@ -40,7 +40,6 @@ resource "aws_db_instance" "hrm" {
 
   backup_retention_period = 7
 
-  deletion_protection       = true
-  skip_final_snapshot       = false
-  final_snapshot_identifier = "hrm-prod-final"
+  deletion_protection = false
+  skip_final_snapshot = true
 }
